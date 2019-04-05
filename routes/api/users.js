@@ -11,8 +11,9 @@ const validateLoginInput = require("../../validation/login");
 
 // Load User Model
 const User = require("../../models/User");
+const Classroom = require("../../models/Classroom");
 
-// @route GET api/users
+// @route GET api/users/test
 // desc Tests users route
 // @access Public
 router.get("/test", (req, res) => res.json({ msg: "User calısıyor" }));
@@ -110,6 +111,9 @@ router.post("/login", (req, res) => {
     })
     .catch(err => console.log(err));
 });
+// @route GET api/users/currentuser
+// desc get current user data
+// @access Private
 router.get(
   "/currentuser",
   passport.authenticate("jwt", { session: false }),
@@ -119,6 +123,18 @@ router.get(
       name: req.user.name,
       isteacher: req.user.isteacher
     });
+  }
+);
+// @route GET api/users/getuserclass
+// desc get current user's class
+// @access Private
+router.get(
+  "/getuserclass",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findOne({ _id: req.user.id })
+      .populate("classes", { _id: 1, name: 1 })
+      .then(user => res.json(user));
   }
 );
 module.exports = router;

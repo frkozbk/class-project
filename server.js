@@ -5,6 +5,7 @@ const passport = require("passport");
 
 const users = require("./routes/api/users");
 const classroom = require("./routes/api/classroom");
+const post = require("./routes/api/post");
 
 const app = express();
 
@@ -25,6 +26,7 @@ require("./config/passport")(passport);
 
 app.use("/api/users", users);
 app.use("/api/classroom", classroom);
+app.use("/api/post", post);
 
 const port = process.env.port || 5000;
 app.listen(port, () => console.log(`Server running on port ${port}`));

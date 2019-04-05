@@ -10,10 +10,6 @@ const ClassroomSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users"
   },
-  students: {
-    type: Array,
-    default: []
-  },
   secretcode: {
     type: String,
     required: true
