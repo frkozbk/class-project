@@ -66,4 +66,24 @@ router.delete(
       .catch(() => res.json({ msg: "Yorum Bulunamadı" }));
   }
 );
+router.post(
+  "/update/:c_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Comment.findOne({ _id: req.params.c_id })
+      .then(comment => {
+        if (!(comment.author.toString() === req.user.id.toString())) {
+          console.log(req.user.id);
+          console.log(comment.author);
+          return res.json({ msg: "Bu yorun size ait değil." });
+        }
+        comment.content = req.body.content;
+        comment.save();
+        res.json({ msg: "Değişiklik kaydedildi." });
+      })
+      .catch(() => {
+        return res.json({ msg: "Comment bulunamadı" });
+      });
+  }
+);
 module.exports = router;

@@ -9,7 +9,7 @@ const post = require("./routes/api/post");
 const comment = require("./routes/api/comment");
 
 const app = express();
-
+console.clear();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
