@@ -62,7 +62,19 @@ router.delete(
         post.remove();
         res.json({ msg: "Silindi" });
       })
-      .catch(err => console.log(err));
+      .catch(() => {
+        return res.json({ msg: "Post bulunamadı" });
+      });
+  }
+);
+router.get(
+  "/getpost/:p_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findById(req.params.p_id)
+      .populate("comments", { author: 1, date: 1, content: 1 })
+      .then(post => console.log(post))
+      .catch(() => res.json({ msg: "Post bulunamadı." }));
   }
 );
 
