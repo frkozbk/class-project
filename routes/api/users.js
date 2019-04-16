@@ -43,6 +43,7 @@ router.post("/register", (req, res) => {
         email: req.body.email,
         avatar,
         password: req.body.password,
+        password: req.body.password2,
         isteacher: req.body.isteacher
       });
 
@@ -77,7 +78,7 @@ router.post("/login", (req, res) => {
     .then(user => {
       if (!user) {
         errors.mail = "Kullanıcı adı yanlış";
-        return res.statusMessage(404).json(errors);
+        return res.status(404).json(errors);
       }
 
       // Şifreyi kontrol et
@@ -128,13 +129,17 @@ router.get(
 // @route GET api/users/getuserclass
 // desc get current user's class
 // @access Private
+
 router.get(
   "/getuserclass",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     User.findOne({ _id: req.user.id })
       .populate("classes", { _id: 1, name: 1 })
-      .then(user => res.json(user));
+      .then(user => res.json(user))
+      .catch(() => {
+        return res.status(403).json({ msg: "Not found" });
+      });
   }
 );
 module.exports = router;

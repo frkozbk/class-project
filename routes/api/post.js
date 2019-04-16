@@ -23,14 +23,20 @@ router.post(
   "/create/:c_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const content = req.body.content;
-    const newPost = new Post({
-      author: req.user.id,
-      content,
-      classid: req.params.c_id
-    });
-    newPost.save();
-    res.json(newPost);
+    Classroom.findById(req.params.c_id)
+      .then(() => {
+        const content = req.body.content;
+        const newPost = new Post({
+          author: req.user.id,
+          content,
+          classid: req.params.c_id
+        });
+        newPost.save();
+        res.json(newPost);
+      })
+      .catch(() => {
+        return res.json({ msg: "Classroom bulunamadı" });
+      });
   }
 );
 router.post(
@@ -39,14 +45,18 @@ router.post(
   (req, res) => {
     const p_id = req.params.p_id;
     const content = req.body.content;
-    Post.findOne({ _id: p_id }).then(post => {
-      if (!post.author === req.user.id) {
-        return res.json({ msg: "Bu post sizin değil" });
-      }
-      post.content = content;
-      post.save();
-      return res.json(post);
-    });
+    Post.findOne({ _id: p_id })
+      .then(post => {
+        if (!post.author === req.user.id) {
+          return res.json({ msg: "Bu post sizin değil" });
+        }
+        post.content = content;
+        post.save();
+        return res.json(post);
+      })
+      .catch(() => {
+        return res.json({ msg: "Post bulunamadı" });
+      });
   }
 );
 router.delete(

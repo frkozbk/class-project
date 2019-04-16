@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-
+const cors = require("cors");
 const users = require("./routes/api/users");
 const classroom = require("./routes/api/classroom");
 const post = require("./routes/api/post");
@@ -10,8 +10,9 @@ const comment = require("./routes/api/comment");
 
 const app = express();
 console.clear();
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
 
 const db = require("./config/keys").mongoURI;
 

@@ -45,7 +45,7 @@ router.delete(
   (req, res) => {
     Comment.findById(req.params.c_id)
       .then(comment => {
-        if (comment.author.toString() === req.user.id)
+        if (comment.author.toString() === req.user.id.toString())
           return res.json({ msg: "Yorumun sahibi siz değilsiniz" });
         const postid = comment.post;
         const commentid = comment._id;

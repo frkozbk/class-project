@@ -15,31 +15,31 @@ module.exports = function validateRegisterInput(data) {
 
   if (Validator.isEmpty(data.name)) {
     console.log(_.isEmpty(data.name));
-    errors.name = "Name field is required";
+    errors.name = "İsim alanı doldurulmalıdır";
   }
 
   if (Validator.isEmpty(data.email)) {
-    errors.email = "Email field is required";
+    errors.email = "Mail alanı doldurulmalıdır.";
   }
 
   if (!Validator.isEmail(data.email)) {
-    errors.email = "Email is invalid";
+    errors.email = "Girilen email geçersizdir.";
   }
 
   if (Validator.isEmpty(data.password)) {
-    errors.password = "Password field is required";
+    errors.password = "Şifre alanı doldurulmalıdır.";
   }
 
   if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
-    errors.password = "Password must be at least 6 characters";
+    errors.password = "Şifreniz en az 6 karakterden oluşmalıdır.";
   }
 
   if (Validator.isEmpty(data.password2)) {
-    errors.password2 = "Confirm Password field is required";
+    errors.password2 = "Şifrenizi tekrar girmelisiniz.";
   }
 
   if (!Validator.equals(data.password, data.password2)) {
-    errors.password2 = "Passwords must match";
+    errors.password2 = "Şifreler eşleşmelidir.";
   }
 
   return {
