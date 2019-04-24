@@ -11,6 +11,9 @@ const Post = require("../../models/Post");
 const User = require("../../models/User");
 const Comment = require("../../models/Comment");
 
+// @route   POST api/comment/test/
+// @desc    comment route'unu test et
+// @access  Private
 router.get(
   "/test",
   passport.authenticate("jwt", { session: false }),
@@ -18,6 +21,9 @@ router.get(
     res.json({ msg: "Comment çalışıyor" });
   }
 );
+// @route   POST api/comment/create/:p_id
+// @desc    Post a yorum ekle
+// @access  Private
 //need validation
 router.post(
   "/create/:p_id",
@@ -38,6 +44,9 @@ router.post(
       .catch(() => res.json({ msg: "Post bulunamadı." }));
   }
 );
+// @route   POST api/comment//delete/:c_id
+// @desc    Post'dan yorum sil
+// @access  Private
 //need validation
 router.delete(
   "/delete/:c_id",
@@ -66,6 +75,9 @@ router.delete(
       .catch(() => res.json({ msg: "Yorum Bulunamadı" }));
   }
 );
+// @route   POST api/comment/update/:c_id
+// @desc    Post'daki yorum güncelle
+// @access  Private
 router.post(
   "/update/:c_id",
   passport.authenticate("jwt", { session: false }),

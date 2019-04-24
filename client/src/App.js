@@ -9,27 +9,28 @@ import "./App.css";
 import { Provider } from "react-redux";
 import store from "./store";
 
-import Register from "./components/auth/Register";
-import Login from "./components/auth/Login";
-import Homepage from "./components/homepage/Homepage";
-import PrivateRoute from "./components/common/PrivateRoute";
+import PrivateRoute from './components/common/PrivateRoute'
 
-// Check for token
+import Navbar from './components/layout/Navbar'
+import Login from './components/auth/Login'
+import Register from './components/auth/Register'
+import Classroom from './components/dashboard/Classroom'
+// Token ı kontrol et
 if (localStorage.jwtToken) {
-  // Set auth token header auth
+  // Toker ı göndericeğimiz isteklerin headerına koy
   setAuthToken(localStorage.jwtToken);
   // Decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
-  // Set user and isAuthenticated
+  // Kullanıcıyı login yap
   store.dispatch(setCurrentUser(decoded));
 
-  // Check for expired token
+  // Token'ın süresi dolmuş mu kontrol et
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
-    // Logout user
+    // Eğer token'ın süresi dolmuşsa kullanıcıyı logout yap
     store.dispatch(logoutUser());
 
-    // Redirect to login
+    // Login sayfasına git
     window.location.href = "/";
   }
 }
@@ -38,11 +39,14 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
+          <Navbar />
           <Route exact path="/" component={Login} />
+          <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Switch>
-            <PrivateRoute exact path="/homepage" component={Homepage} />
+            <PrivateRoute exact path="/classroom" component={Classroom} />
           </Switch>
+
         </Router>
       </Provider>
     );

@@ -48,8 +48,12 @@ export const setCurrentUser = decoded => {
     payload: decoded
   };
 };
+// Kullanıcıyı logout yaptıktan sonra token ı gönderilecek olan isteklerin 
+// headerından kaldır
 export const logoutUser = history => dispatch => {
   localStorage.removeItem("jwtToken");
   setAuthToken(false);
   dispatch(setCurrentUser({}));
+  history.push('/login')
+
 };

@@ -8,7 +8,7 @@ export const getUserClass = user => dispatch => {
     .then(response => {
       dispatch({
         type: GET_USER_CLASS,
-        payload: response.data.classes
+        payload: response.data
       })
     })
     .catch(error => {

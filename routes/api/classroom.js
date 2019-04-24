@@ -5,7 +5,7 @@ const randomstring = require("../../utils/random");
 
 //Lodash
 const _ = require("lodash");
-// Load Classroom model
+//  Classroom model'ini import et
 const Classroom = require("../../models/Classroom.js");
 const Post = require("../../models/Post");
 const User = require("../../models/User");
@@ -13,6 +13,9 @@ const User = require("../../models/User");
 router.get("/test", (req, res) => {
   res.json({ msg: "çalışıyor" });
 });
+// @route   POST api/classroom/create/
+// @desc    Sınıf oluştur
+// @access  Private
 // need validation
 router.post("/create", (req, res) => {
   if (!req.user.isteacher) {
@@ -30,6 +33,9 @@ router.post("/create", (req, res) => {
     .then(classroom => res.json(classroom))
     .catch(err => console.log(err));
 });
+// @route   POST api/classroom/join/
+// @desc    Sınıfa katıl
+// @access  Private
 // need validation
 router.post(
   "/join",
@@ -57,7 +63,7 @@ router.post(
   }
 );
 // @route   POST api/classroom/leave/:c_id
-// @desc    Delete experience from profile
+// @desc    Kullanıcıyı sınıftan kaldır
 // @access  Private
 // need validation
 router.post(

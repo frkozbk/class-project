@@ -1,0 +1,79 @@
+.loginForm_section {
+  width: 550px;
+  height: auto;
+  max-width: 550px;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 3px;
+  form {
+    width: 100%;
+    padding: 40px;
+    
+    h1 {
+      text-align: center;
+      color: #66606e;
+      margin-bottom: 30px;
+    }
+    input[type="text"],input[type="email"],input[type="password"] {
+      outline: 0;
+      border: none;
+      width: 100%;
+      background: #f5f2f9;
+      height: 40px;
+      padding: 8px 15px;
+      margin-top: 20px;
+      transition: 0.2s;
+    }
+    input:focus {
+      border-left: 4px solid blue;
+    }
+    button {
+      width: 100%;
+      height: 55px;
+      padding: 20px 15px;
+      background: #4942ad;
+      color: white;
+      outline: none;
+      border: none;
+      border-radius: 5px;
+      margin-top: 30px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2d2d8c;
+    }
+    .info {
+      text-align: center;
+      margin-top: 40px;
+      color: #66606e;
+      a {
+        text-decoration: none;
+        color: #27a6d8;
+      }
+    }
+    .isTeacher{
+      margin-top: 10px;
+     display: flex;
+     align-items: center;
+      label{
+        margin-right: 5px;
+      }
+    }
+  }
+  .small-info{
+    color:red;
+    margin-top:10px;
+    display: block;
+  }
+  .is-invalid{
+    border-left: 4px solid red !important;
+  }
+  .is-invalid:focus{
+    border-left: 4px solid red;
+  }
+}
+

@@ -19,7 +19,7 @@ const Classroom = require("../../models/Classroom");
 router.get("/test", (req, res) => res.json({ msg: "User calısıyor" }));
 
 // @route GET api/users/register
-// desc Register User
+// desc Kullanıcıyı kayıt et
 // @access Public
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -77,7 +77,7 @@ router.post("/login", (req, res) => {
   User.findOne({ email })
     .then(user => {
       if (!user) {
-        errors.mail = "Kullanıcı adı yanlış";
+        errors.email = "Geçersiz e-posta girdiniz";
         return res.status(404).json(errors);
       }
 
@@ -113,7 +113,7 @@ router.post("/login", (req, res) => {
     .catch(err => console.log(err));
 });
 // @route GET api/users/currentuser
-// desc get current user data
+// desc Kullanıcının bilgilerini bul
 // @access Private
 router.get(
   "/currentuser",
@@ -127,7 +127,7 @@ router.get(
   }
 );
 // @route GET api/users/getuserclass
-// desc get current user's class
+// desc Kullanıcının dahil olduğu sınıfları bul
 // @access Private
 
 router.get(
@@ -135,8 +135,19 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     User.findOne({ _id: req.user.id })
-      .populate("classes", { _id: 1, name: 1 })
-      .then(user => res.json(user))
+      .populate({ path: 'classes', populate: { path: 'teacherid ', } })
+      .then(user => {
+        const result = user.classes.map(iter => {
+          return {
+            classid: iter._id,
+            name: iter.name,
+            teachername: iter.teacherid.name,
+            avatar: iter.teacherid.avatar,
+
+          }
+        })
+        res.json(result)
+      })
       .catch(() => {
         return res.status(403).json({ msg: "Not found" });
       });

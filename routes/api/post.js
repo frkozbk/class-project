@@ -10,14 +10,14 @@ const Post = require("../../models/Post");
 const User = require("../../models/User");
 
 // @route GET api/post/test
-// desc Tests post route
+// desc Post route unu test et
 // @access Public
 
 router.get("/test", (req, res) => res.json({ msg: "Post calısıyor" }));
 
-// @route GET api/post/cre
-// desc create post
-// @access Public
+// @route GET api/post/create/:c_id
+// desc Post oluştur
+// @access Private
 // need validation
 router.post(
   "/create/:c_id",
@@ -39,6 +39,9 @@ router.post(
       });
   }
 );
+// @route GET api/post/update/:p_id
+// desc Post'u güncelle
+// @access Private
 router.post(
   "/update/:p_id",
   passport.authenticate("jwt", { session: false }),
@@ -59,6 +62,9 @@ router.post(
       });
   }
 );
+// @route GET api/post/delete/:p_id
+// desc Post'u sil
+// @access Private
 router.delete(
   "/delete/:p_id",
   passport.authenticate("jwt", { session: false }),
@@ -77,6 +83,9 @@ router.delete(
       });
   }
 );
+// @route GET api/post/update/:p_id
+// desc Post'u ara
+// @access Private
 router.get(
   "/getpost/:p_id",
   passport.authenticate("jwt", { session: false }),

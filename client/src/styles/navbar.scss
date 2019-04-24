@@ -1,0 +1,64 @@
+nav {
+  box-sizing: border-box;
+  height: 60px;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: sans-serif;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  img {
+    margin-left: 40px;
+    height: 40px;
+  }
+  .nav-header {
+    margin-left: 30px;
+    color: #332e3c;
+    line-height: 60px;
+  }
+  .nav-header:hover {
+    background: rgba(255, 255, 255, 0.88);
+  }
+  a {
+    text-decoration: none;
+    color: #332e3c;
+  }
+  ul {
+    display: grid;
+    grid-template-columns: 100px 100px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+    li {
+      margin-right: 20px;
+      list-style: none;
+      line-height: 60px;
+      text-align: center;
+    }
+    li:hover {
+      background: #f5f2f9;
+    }
+    #lastitem:hover {
+      background: #fff;
+    }
+    #kayıt_ol {
+      line-height: 60px;
+      background: #42aed2;
+      display: inline;
+      line-height: 60px;
+      padding: 14px 7px;
+      border-radius: 3px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.88);
+      transition: 0.3s;
+    }
+    #kayıt_ol:hover {
+      background-color: #79cae1;
+    }
+  }
+}
