@@ -15,7 +15,6 @@ app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
 
 const db = require("./config/keys").mongoURI;
-
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log("MongoDB Connected"))

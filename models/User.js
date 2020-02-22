@@ -28,7 +28,8 @@ const UserSchema = new Schema({
   classes: [
     {
       type: Schema.Types.ObjectId,
-      ref: "classroom"
+      ref: "classroom",
+      unique:true
     }
   ]
 });

@@ -17,7 +17,9 @@ router.get("/test", (req, res) => {
 // @desc    Sınıf oluştur
 // @access  Private
 // need validation
-router.post("/create", (req, res) => {
+router.post("/create",
+passport.authenticate("jwt", { session: false }),
+ (req, res) => {
   if (!req.user.isteacher) {
     return res.status(400).json({ msg: "Sınıf açma izniniz yok" });
   }
@@ -30,8 +32,14 @@ router.post("/create", (req, res) => {
   });
   newClassroom
     .save()
-    .then(classroom => res.json(classroom))
+    .then(classroom => console.log(classroom))
     .catch(err => console.log(err));
+  User.findOne({ _id: req.user.id }).then(user => {
+    user.classes.push(req.user.id);
+    user.save();
+    res.json({ msg: "Sınıfa katıldınız" });
+  });
+  
 });
 // @route   POST api/classroom/join/
 // @desc    Sınıfa katıl
