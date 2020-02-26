@@ -32,6 +32,7 @@ nav {
     height: 60px;
     justify-content: center;
     align-items: center;
+    margin-bottom: 0;
     li {
       margin-right: 20px;
       list-style: none;
@@ -71,8 +72,8 @@ nav {
     
   }
   .Navbar-Logged_menu{
-    display: grid;
-    grid-template-columns: 100px 100px 100px 100px;
+    display: flex;
+    align-items: center;
     li {
       margin-right: 20px;
       list-style: none;

@@ -13,23 +13,28 @@
       border-radius: 6px;
       height: 200px;
       width: 400px;
+      background: white;
       position: relative;
       max-width: 400px;
       img {
         height: 50px;
         position: absolute;
         border-radius: 50%;
-        top: 20px;
-        right: 10px;
+        top: 80px;
+        transform: translate(-50%, -50%);
+        right: -9px;
       }
       .class_card-header {
         top: 0;
         height: 80px;
-        padding: 15px;
         border-bottom: 1px solid gray;
         position: relative;
         h1 {
-          color: #212529;
+          top: 36px;
+          left: 40px;
+          display: inline;
+          position: relative;
+          color: #707070;
           a {
             color: #707070;
             text-decoration: none;

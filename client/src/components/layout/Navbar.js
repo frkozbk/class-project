@@ -1,42 +1,26 @@
 import React, { Component } from 'react'
+
+import JoinClassModal from '../modals/JoinClassModal'
+
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import { logoutUser } from '../../actions/authActions'
 import image from "../../styles/Logo1.png";
 import '../../styles/navbar-logged.scss'
+import { Button } from 'reactstrap';
+import CreateClassModal from '../modals/CreateClassModal'
+import NavbarTeacher from './NavbarTeacher'
+import NavbarStudent from './NavbarStudent'
 class Navbar extends Component {
-    onClick = (e) => {
+    state= {
+        createClassModalIsOpen: false,
+        joinClassModalIsOpen: false,
+    }
+    handleLogout = (e) => {
         e.preventDefault();
         this.props.logoutUser(this.props.history)
-
     }
     render() {
-
-        const NavbarLogged = (
-            <nav>
-                <Link className="nav-logo" to="/login">
-                    <img src={image} alt="logo" />
-                </Link>
-
-                <ul className="Navbar-Logged_menu">
-                    <li>
-                        <Link to="/classroom">Sınıflar</Link>
-                    </li>
-                    <li>
-                        <Link to="/tasks">Ödevler</Link>
-                    </li>
-                    <li>
-                        <Link to="/messages">Mesajlar</Link>
-                    </li>
-
-                    <li id="lastitem">
-                        <Link to="/login" id="kayıt_ol" onClick={this.onClick}>
-                            Çıkış Yap
-                </Link>
-                    </li>
-                </ul>
-            </nav>
-        )
         const Navbar = (
             <nav>
                 <Link className="nav-logo" to="/login">
@@ -50,14 +34,24 @@ class Navbar extends Component {
                     <li id="lastitem">
                         <Link to="/register" id="kayıt_ol">
                             KAYIT OL
-      </Link>
+                        </Link>
                     </li>
                 </ul>
             </nav>
         )
         return (
             <>
-                {this.props.auth ? NavbarLogged : Navbar}
+                {
+                    this.props.auth 
+                    ? 
+                        this.props.auth.isteacher === true
+                        ? <NavbarTeacher openCreateClassModal={() => this.setState({createClassModalIsOpen:true}) } image={image} handleLogout={() =>this.handleLogout()}/>
+                        : <NavbarStudent openJoinClassModal={() => this.setState({joinClassModalIsOpen:true})} image={image} handleLogout={() =>this.handleLogout()}/>
+                    : 
+                        Navbar
+                }
+                <JoinClassModal isOpen={this.state.joinClassModalIsOpen} onClose={() => this.setState({joinClassModalIsOpen: false})}/>
+                <CreateClassModal isOpen={this.state.createClassModalIsOpen} onClose={() => this.setState({createClassModalIsOpen: false})} />
             </>
         )
     }

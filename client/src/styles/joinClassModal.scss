@@ -1,0 +1,17 @@
+.joinClassModal{
+  p{
+    font-size: 20px;
+    color: #667278;
+  }
+  input[type='text']{
+    outline: 0;
+    border: none;
+    width: 100%;
+    margin-bottom: 20px;
+    background: #f5f2f9;
+    height: 40px;
+    padding: 8px 15px;
+    margin-top: 20px;
+    transition: 0.2s;
+  }
+}

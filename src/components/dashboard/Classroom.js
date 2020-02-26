@@ -3,7 +3,6 @@ import "../../styles/class.scss";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom'
 import { getUserClass } from "../../actions/getUserClass";
-import { ClassroomCard } from "./ClassroomCard";
 class Classroom extends Component {
     constructor(props) {
         super(props);
@@ -11,6 +10,7 @@ class Classroom extends Component {
     }
     componentDidMount() {
         this.props.getUserClass()
+
     }
     componentWillReceiveProps(nextProps) {
         this.setState({ user_class: nextProps.user_class.classes })
@@ -22,12 +22,19 @@ class Classroom extends Component {
             content = this.state.user_class.map(iter => {
                 return (
                     <li>
-                        <ClassroomCard 
-                            name={iter.name}
-                            id={iter.id}
-                            avatar={iter.avatar}
-                            teacherName="Özgür Can Turna"
+                        <div className="class_card-header">
+                            <h1>
+                                <Link to={`/classroom/${iter.classid}`} >{iter.name}</Link>
+                            </h1>
+                        </div>
+                        <img
+                            src={iter.avatar}
+                            alt="teachername"
                         />
+
+                        <div className="class_card-footer">
+                            <h3>{iter.teachername}</h3>
+                        </div>
                     </li>
                 )
             })
