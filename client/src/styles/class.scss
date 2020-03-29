@@ -7,12 +7,10 @@
   ul {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 20px;
+    grid-gap: 30px;
     li {
       list-style: none;
       border-radius: 6px;
-      height: 200px;
-      width: 400px;
       position: relative;
       max-width: 400px;
       img {
@@ -53,5 +51,32 @@
         }
       }
     }
+  }
+}
+.table {
+  background-color: white;
+  border-radius: 10px;
+  thead {
+    border-top: 0;
+    tr {
+      border-top: 0;
+      border-radius: 10px;
+      th {
+        border-top: 0;
+        border-radius: 10px;
+        &:last-of-type {
+          width: 400px;
+          text-align: center;
+        }
+      }
+    }
+
+    td:last-of-type {
+      text-align: end;
+    }
+  }
+  td {
+    padding: 8px 15px 8px 15px;
+    vertical-align: middle !important;
   }
 }

@@ -96,5 +96,14 @@ router.get(
       .catch(() => res.json({ msg: "Post bulunamadı." }));
   }
 );
+router.get(
+    "/getClassPosts/:c_id",
+    passport.authenticate("jwt", { session: false }),
+    (req,res) => {
+        Post.find({classid :req.params.c_id}).then((posts) => {
+            res.json({posts})
+        })
+    }
 
+)
 module.exports = router;

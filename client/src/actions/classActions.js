@@ -1,7 +1,12 @@
-import instance from '../instance'
+import instance from '../instance';
 
-export const joinClass = (classCode) => {
-  instance.post('/api/classroom/join',{secretcode:classCode})
-    .then(response => {console.log(response)})
-    .catch(err => console.log(err) )
-}
+export const leaveClass = id => {
+  return new Promise((resolve, reject) => {
+    instance
+      .post(`/api/classroom/leave/${id}`)
+      .then(response => {
+        return resolve();
+      })
+      .catch(err => reject());
+  });
+};

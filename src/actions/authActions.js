@@ -2,6 +2,7 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { SET_CURRENT_USER, GET_ERRORS } from "../actions/types";
+import instance from "../instance";
 
 // Register User
 export const registerUser = (newUser, history) => dispatch => {
@@ -17,7 +18,7 @@ export const registerUser = (newUser, history) => dispatch => {
 };
 // Login User
 export const loginUser = user => dispatch => {
-  axios
+  instance
     .post("/api/users/login", user)
     .then(res => {
       // Token ı al

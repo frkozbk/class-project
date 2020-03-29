@@ -32,14 +32,16 @@ passport.authenticate("jwt", { session: false }),
   });
   newClassroom
     .save()
-    .then(classroom => console.log(classroom))
+    .then(classroom => {
+      User.findOne({ _id: req.user.id }).then(user => {
+        user.classes.push(classroom.id);
+        user.save();
+        res.json({ secretCode: classroom.secretcode});
+      });
+    })
     .catch(err => console.log(err));
-  User.findOne({ _id: req.user.id }).then(user => {
-    user.classes.push(req.user.id);
-    user.save();
-    res.json({ msg: "Sınıfa katıldınız" });
-  });
-  
+
+
 });
 // @route   POST api/classroom/join/
 // @desc    Sınıfa katıl
@@ -78,20 +80,30 @@ router.post(
   "/leave/:c_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    User.findOne({ _id: req.user.id }).then(user => {
-      const removeIndex = _.findIndex(user.classes, iter => {
-        return iter._id.toString() === req.params.c_id;
-      });
-      let isTrue = removeIndex;
-      console.log(isTrue);
-      if (removeIndex === -1) {
-        return res.json({ msg: "Kullanıcı bu sınıfa kayıtlı değil" });
+    User.findOne({ _id: req.user.id }).then(
+      user => {
+        user.classes = user.classes.filter(classID => {
+            return classID.toString() !== req.params.c_id
+            // return iter !== null || iter._id !== req.params.c_id
+        });
+        user.save();
+        res.json({ msg: "Sınıftan ayrıldınız." });
       }
-      user.classes.splice(removeIndex, 1);
-      user.save();
-      res.json({ msg: "Sınıftan ayrıldınız." });
-    });
+    ).catch(err => res.json({error:err}))
   }
 );
-
+router.get(
+    "/getClassroomDetail/:c_id",
+    passport.authenticate("jwt", { session: false }),
+    (req,res) => {
+        const classroomID  = req.params.c_id
+        Classroom.findOne({_id :classroomID})
+            .then(classroom => {
+                res.json({classroom})
+            })
+            .catch((err) => {
+                res.json({msg:'Bir hata oluştu'})
+            })
+    }
+)
 module.exports = router;

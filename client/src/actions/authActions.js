@@ -1,13 +1,14 @@
-import axios from "axios";
-import setAuthToken from "../utils/setAuthToken";
-import jwt_decode from "jwt-decode";
-import { SET_CURRENT_USER, GET_ERRORS } from "../actions/types";
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import setAuthToken from '../utils/setAuthToken';
+import { SET_CURRENT_USER, GET_ERRORS } from './types';
+import instance from '../instance';
 
 // Register User
 export const registerUser = (newUser, history) => dispatch => {
   axios
-    .post("/api/users/register", newUser)
-    .then(res => history.push("/login"))
+    .post('/api/users/register', newUser)
+    .then(res => history.push('/login'))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -17,19 +18,18 @@ export const registerUser = (newUser, history) => dispatch => {
 };
 // Login User
 export const loginUser = user => dispatch => {
-  axios
-    .post("/api/users/login", user)
+  instance
+    .post('/api/users/login', user)
     .then(res => {
       // Token ı al
 
-      const token = res.data.token;
+      const { token } = res.data;
       // Token ı local a kayıt et
-      localStorage.setItem("jwtToken", token);
+      localStorage.setItem('jwtToken', token);
       // token ı axios'un headerına kayıt et
       setAuthToken(token);
       // Kullanıcının bilgisini almak için token ı ayrıştır
       const decoded = jwt_decode(token);
-
       // User ı React store a koy
       dispatch(setCurrentUser(decoded));
     })
@@ -48,12 +48,11 @@ export const setCurrentUser = decoded => {
     payload: decoded
   };
 };
-// Kullanıcıyı logout yaptıktan sonra token ı gönderilecek olan isteklerin 
+// Kullanıcıyı logout yaptıktan sonra token ı gönderilecek olan isteklerin
 // headerından kaldır
 export const logoutUser = history => dispatch => {
-  localStorage.removeItem("jwtToken");
+  localStorage.removeItem('jwtToken');
   setAuthToken(false);
   dispatch(setCurrentUser({}));
-  history.push('/login')
-
+  history.push('/login');
 };

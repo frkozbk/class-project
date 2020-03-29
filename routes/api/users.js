@@ -135,16 +135,14 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     User.findOne({ _id: req.user.id })
-      .populate({ path: 'classes'})
+      .populate({ path: 'classes',populate:{path:'teacherid'}})
       .then(user => {
-        console.log(user)
         const result = user.classes.map(iter => {
           return {
             classid: iter._id,
             name: iter.name,
             teachername: iter.teacherid.name,
             avatar: iter.teacherid.avatar,
-
           }
         })
         res.json(result)
