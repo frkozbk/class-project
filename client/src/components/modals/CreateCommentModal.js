@@ -8,30 +8,31 @@ import {
   Button,
   Spinner
 } from 'reactstrap';
-
 import MathJaxPreview from '../common/MathJaxPreview';
 import instance from '../../instance';
 
-const CreatePostModal = ({ isOpen, handleClose, classroomId }) => {
+const CreatePostModal = ({ isOpen, handleClose, postId }) => {
   const [content, setContent] = React.useState('');
   const [showPreview, setShowPreview] = React.useState(false);
-  const [createPostState, setCreatePostState] = React.useState('');
+  const [createCommentState, setCreateCommentState] = React.useState('');
   const handleToggle = () => {
     setContent('');
     handleClose();
+    setCreateCommentState('success');
+    handleClose();
   };
-  const handleCreatePost = e => {
+  const handleCreateComment = e => {
     e.preventDefault();
-    setCreatePostState('loading');
-    instance.post(`/api/post/create/${classroomId}`, { content }).then(() => {
+    setCreateCommentState('loading');
+    instance.post(`/api/comment/create/${postId}`, { content }).then(() => {
       handleToggle();
     });
   };
   return (
     <Modal isOpen={isOpen} toggle={handleToggle}>
-      <ModalHeader>Bir Gönderi Oluştur</ModalHeader>
+      <ModalHeader>Yorum oluştur</ModalHeader>
       <ModalBody>
-        <Form onSubmit={e => handleCreatePost(e)}>
+        <Form onSubmit={e => handleCreateComment(e)}>
           <MathJaxPreview value={content} isHidden={!showPreview} />
           {!showPreview && (
             <Input
@@ -59,7 +60,7 @@ const CreatePostModal = ({ isOpen, handleClose, classroomId }) => {
               {!showPreview ? 'Önizlemeyi Aç' : 'Önizlemeyi Kapat'}
             </Button>
             <Button color="success">
-              {createPostState === 'loading' ? (
+              {createCommentState === 'loading' ? (
                 <Spinner animation="border" variant="primary" />
               ) : (
                 'Oluştur'

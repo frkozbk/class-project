@@ -2,24 +2,28 @@ import React, { useState } from 'react';
 
 import { Modal, ModalHeader, ModalBody, Button, Spinner } from 'reactstrap';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import '../../styles/joinClassModal.scss';
 import instance from '../../instance';
+import { getUserClass } from '../../actions/getUserClass';
 
-const JoinClassModal = ({ isOpen, onClose }) => {
+const JoinClassModal = ({ isOpen, onClose, getUserClassFn }) => {
   const [classCode, setClassCode] = useState('');
-  const [joinClassIsPending, setJoinClassIsPending] = useState(true);
-  const [joinClassIsFailed, setJoinClassIsFailed] = useState(false);
-  const handleJoinClass = () => {
-    setJoinClassIsPending(true);
-    instance
-      .post('/api/classroom/join', { secretcode: classCode })
-      .then(response => {
-        setJoinClassIsPending(false);
-      })
-      .catch(err => {
-        setJoinClassIsPending(false);
-        setJoinClassIsFailed(true);
+  const [joinClassIsPending, setJoinClassIsPending] = useState(false);
+  const handleJoinClass = async () => {
+    try {
+      setJoinClassIsPending(true);
+      const response = await instance.post('/api/classroom/join', {
+        secretcode: classCode
       });
+      setJoinClassIsPending(false);
+      getUserClassFn();
+      onClose();
+    } catch (error) {
+      setJoinClassIsPending(false);
+    }
+    setJoinClassIsPending(false);
   };
   return (
     <>
@@ -36,11 +40,10 @@ const JoinClassModal = ({ isOpen, onClose }) => {
               onChange={e => setClassCode(e.target.value)}
             />
             <Button block onClick={() => handleJoinClass(classCode)}>
-              {joinClassIsPending ? (
-                'Sınıfa Katıl'
-              ) : (
+              {joinClassIsPending && (
                 <Spinner animation="border" variant="primary" />
               )}
+              {!joinClassIsPending && 'Sınıfa Katıl'}
             </Button>
           </div>
         </ModalBody>
@@ -48,5 +51,7 @@ const JoinClassModal = ({ isOpen, onClose }) => {
     </>
   );
 };
-
-export default JoinClassModal;
+const mapDispatchToProps = dispatch => ({
+  getUserClassFn: bindActionCreators(getUserClass, dispatch)
+});
+export default connect(null, mapDispatchToProps)(JoinClassModal);

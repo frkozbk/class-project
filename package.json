@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "debug": "nodemon --nolazy --inspect-brk=9229 server.js",
     "client-install": "npm install --prefix client",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
@@ -32,6 +33,8 @@
     "react-mathjax-preview": "^1.1.0",
     "react-modal": "^3.11.1",
     "reactstrap": "^8.4.1",
+    "socket.io": "^2.3.0",
+    "tailwindcss": "^1.2.0",
     "validator": "^10.11.0"
   },
   "devDependencies": {

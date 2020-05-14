@@ -22,11 +22,12 @@ class Login extends Component {
       this.props.history.push('/classroom');
     }
   }
+
   componentWillReceiveProps = nextProps => {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push('/classroom');
     }
-    //Login formunda bir hata varsa bunu state'e koy
+    // Login formunda bir hata varsa bunu state'e koy
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }

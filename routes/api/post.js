@@ -100,7 +100,11 @@ router.get(
     "/getClassPosts/:c_id",
     passport.authenticate("jwt", { session: false }),
     (req,res) => {
-        Post.find({classid :req.params.c_id}).then((posts) => {
+        Post.find({classid :req.params.c_id})
+        .populate({ path: 'comments',populate:{path:'author'}})
+        .populate('author') 
+        .sort('-date')
+        .then((posts) => {
             res.json({posts})
         })
     }

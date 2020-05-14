@@ -6,7 +6,7 @@ import instance from '../instance';
 
 // Register User
 export const registerUser = (newUser, history) => dispatch => {
-  axios
+  instance
     .post('/api/users/register', newUser)
     .then(res => history.push('/login'))
     .catch(err =>
@@ -54,5 +54,5 @@ export const logoutUser = history => dispatch => {
   localStorage.removeItem('jwtToken');
   setAuthToken(false);
   dispatch(setCurrentUser({}));
-  history.push('/login');
+  history && history.push('/login');
 };

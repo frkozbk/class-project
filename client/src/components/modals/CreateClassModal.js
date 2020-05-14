@@ -36,9 +36,16 @@ const CreateClassModal = ({ isOpen, onClose, getUserClassFn }) => {
         setCreateClassIsFailed(true);
       });
   };
+  const handleToggle = () => {
+    setClassName('');
+    setCreateClassIsPending(false);
+    setShowSecretCode(false);
+    setClassName('');
+    onClose();
+  };
   return (
     <>
-      <Modal isOpen={isOpen} toggle={onClose}>
+      <Modal isOpen={isOpen} toggle={handleToggle}>
         <ModalHeader>Sınıf Oluştur</ModalHeader>
         {!showSecretCode ? (
           <ModalBody>
@@ -78,17 +85,29 @@ const mapDispatchToProps = dispatch => ({
   getUserClassFn: bindActionCreators(getUserClass, dispatch)
 });
 const SecretCodeModalBody = ({ secretCode }) => {
+  const [copied, setCopied] = React.useState(false);
   const copyToClipboard = () => {
-    document.execCommand('copy', false, secretCode);
+    const copyText = document.getElementsByClassName('form-control')[0];
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand('copy');
     console.log(secretCode);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1000);
   };
   return (
     <ModalBody>
       <div className="createClassModal">
         <p>Lütfen kodunuzu kopyalayıp öğrencilerinizle paylaşın!</p>
-        <Input type="text" value={secretCode} readOnly className="mb-3" />
+        <Input
+          className="secretCode"
+          type="text"
+          value={secretCode}
+          readOnly
+          className="mb-3"
+        />
         <Button block onClick={() => copyToClipboard(secretCode)}>
-          Panoya Kopyala
+          {!copied ? 'Panoya Kopyala' : 'Kopyalandı'}
         </Button>
       </div>
     </ModalBody>

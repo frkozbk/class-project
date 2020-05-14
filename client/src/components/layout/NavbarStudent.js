@@ -1,8 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getUserClass } from '../../actions/getUserClass';
 
-const NavbarStudent = ({ image, openJoinClassModal, handleLogout }) => {
+const NavbarStudent = ({
+  image,
+  openJoinClassModal,
+  handleLogout,
+  getUserClassFn
+}) => {
   return (
     <nav>
       <Link className="nav-logo" to="/login">
@@ -34,4 +42,7 @@ const NavbarStudent = ({ image, openJoinClassModal, handleLogout }) => {
   );
 };
 
-export default NavbarStudent;
+const mapDispatchToProps = dispatch => ({
+  getUserClassFn: bindActionCreators(getUserClass, dispatch)
+});
+export default connect(null, mapDispatchToProps)(NavbarStudent);
