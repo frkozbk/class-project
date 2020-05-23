@@ -64,7 +64,7 @@ const CreateClassModal = ({ isOpen, onClose, getUserClassFn }) => {
                 onClick={e => createClass(className)}
               >
                 {!createClassIsPending ? (
-                  'Sınıfa Katıl'
+                  'Sınıf Oluştur'
                 ) : (
                   <Spinner animation="border" variant="primary" />
                 )}

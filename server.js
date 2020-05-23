@@ -9,6 +9,8 @@ const users = require('./routes/api/users');
 const classroom = require('./routes/api/classroom');
 const post = require('./routes/api/post');
 const comment = require('./routes/api/comment');
+const Classroom = require('./models/Classroom');
+const Message = require('./models/Message');
 
 const app = express();
 console.clear();
@@ -39,6 +41,23 @@ io.on('connection', (socket) => {
   console.log('connection');
   socket.on('disconnect', () => {
     console.log('User has left');
+  });
+  socket.on('join', async ({ classroomID }, callback) => {
+    const classroom = await Classroom.findOne({ _id: classroomID }).populate('messages');
+    callback(classroom.messages);
+  });
+  socket.on('message', async ({ msg, userId, classroomID }, callback) => {
+    let classroom = await Classroom.findOne({ _id: classroomID });
+    const message = new Message({
+      content: msg,
+      author: userId,
+    });
+    callback(message);
+    classroom.messages.push(message.id);
+    await classroom.save();
+    await message.save();
+    classroom = await Classroom.findOne({ _id: classroomID }).populate('messages');
+    socket.broadcast.emit('newMessage', classroom.messages);
   });
 });
 

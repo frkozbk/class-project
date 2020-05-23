@@ -39,20 +39,50 @@
     }
   }
   .messages {
-    flex: 1;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    overflow-x: scroll;
+    ul {
+      margin-bottom: 0;
+    }
+    .messageContainer {
+      width: 100%;
+      height: calc(100% - 50px);
+      overflow-y: scroll;
+      padding: 10px;
+      padding-bottom: 0;
+    }
     .message-input {
       height: 50px;
       margin-top: auto;
       display: flex;
-      padding: 5px 0;
+      padding-top: 5px;
       outline: 0 !important;
-      .input {
-        border: 0;
+
+      .input,
+      .input:focus {
+        border-top: 1px solid #ededed;
+        height: 100%;
+        outline: 0;
       }
       .btn {
         border-radius: 0;
+      }
+    }
+    .message {
+      margin-bottom: 10px;
+      display: flex;
+      &.userMessage {
+        justify-content: flex-end;
+      }
+      .message-container {
+        max-width: 50%;
+        display: inline-block;
+        border-radius: 8px;
+        padding: 5px;
+        border: 1px solid #ededed;
       }
     }
   }
