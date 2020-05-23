@@ -11,7 +11,7 @@ const Chatbox = ({ onClose, user }) => {
   const [messages, setMessages] = useState([]);
   const messageRef = useRef();
   const { classroomID } = useParams();
-  const ENDPOINT = 'localhost:5001';
+  const ENDPOINT = 'localhost:5000';
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit('join', { classroomID }, messagesFromServer => {

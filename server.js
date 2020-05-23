@@ -13,10 +13,9 @@ const Classroom = require('./models/Classroom');
 const Message = require('./models/Message');
 const path = require('path');
 const app = express();
-console.clear();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors({ credentials: true, origin: ['http://localhost:3000'] }));
+app.use(cors());
 
 const db = require('./config/keys').mongoURI;
 mongoose
@@ -36,7 +35,7 @@ app.use('/api/comment', comment);
 
 const server = http.createServer(app);
 const io = socketio(server);
-
+const port = process.env.port || process.env.PORT || 5000;
 io.on('connection', (socket) => {
   console.log('connection');
   socket.on('disconnect', () => {
@@ -61,14 +60,12 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(5001, () => `io connected`);
+server.listen(port, () => `io connected`);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
-
-const port = process.env.port || 5000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+// app.listen(port, () => console.log(`Server running on port ${port}`));
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static('client/build'));
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+//   });
+// }
